@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: remind-pack-subscriptions-svc
+  profiles:
+    active: local
+  config:
+    import: optional:configserver:${SPRING_CLOUD_CONFIG_URI:http://localhost:8888}
+
+

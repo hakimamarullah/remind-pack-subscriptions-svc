@@ -1,0 +1,5 @@
+/.idea/
+/logs/
+/subscriptions-svc.iml
+/src/main/resources/application-local.yml
+/target/
