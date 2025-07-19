@@ -167,7 +167,7 @@ public class SubscriptionOrderSvc implements OrderService {
 
         // Check Limit
         int countByPlanId = subscriptionRepository.countByPlanId(request.getPlanId());
-        Integer planLimit = planRepository.getLimitById(request.getPlanId()).orElse(null);
+        Integer planLimit = planRepository.getSubscriptionLimitById(request.getPlanId()).orElse(null);
         if (isLimitExceeded(countByPlanId, planLimit)) {
             return ApiResponse.setResponse(null, "You have reached the maximum number of subscriptions for this plan", 400);
         }

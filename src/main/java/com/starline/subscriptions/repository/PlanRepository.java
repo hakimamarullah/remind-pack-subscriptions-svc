@@ -13,6 +13,6 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
 
     List<Plan> findAllByEnabledTrue();
 
-    @Query(value = "SELECT p.limit FROM Plan p WHERE p.id = :id")
-    Optional<Integer>  getLimitById(Long id);
+    @Query(value = "SELECT p.subsLimit FROM Plan p WHERE p.id = :id")
+    Optional<Integer> getSubscriptionLimitById(Long id);
 }

@@ -42,9 +42,9 @@ public class Plan extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PlanValidity validity;
 
-    @Column(name = "LIMIT")
-    @Comment(value = "Plan Subscription limit", on = "LIMIT")
-    private Integer limit;
+    @Column(name = "SUBSCRIPTION_LIMIT")
+    @Comment(value = "Plan Subscription limit", on = "SUBSCRIPTION_LIMIT")
+    private Integer subsLimit;
 
     @Column(name = "ENABLED", nullable = false)
     @Comment(value = "Plan enabled flag", on = "ENABLED")
