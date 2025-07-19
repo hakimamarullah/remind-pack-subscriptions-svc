@@ -28,7 +28,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -36,7 +36,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class MidtransOrderSvc implements OrderService {
+public class SubscriptionOrderSvc implements OrderService {
 
     private final PlanRepository planRepository;
 
@@ -101,7 +101,7 @@ public class MidtransOrderSvc implements OrderService {
 
         // Free plan
         if (plan.getPrice() == 0) {
-            subscription.setEffectiveDate(LocalDateTime.now());
+            subscription.setEffectiveDate(LocalDate.now());
             subscription.setExpiryDate(SubscriptionsUtil.calculateExpiryDate(subscription.getEffectiveDate(), plan.getValidity()));
             subscription.setStatus(SubscriptionStatus.ACTIVE);
             subscriptionRepository.save(subscription);
@@ -137,6 +137,7 @@ public class MidtransOrderSvc implements OrderService {
         PaymentHistory paymentHistory = new PaymentHistory();
         paymentHistory.setPaymentStatus(PaymentStatus.PENDING.name())
                 .setAmount(String.valueOf(grandTotal))
+                .setUserId(String.valueOf(request.getUserId()))
                 .setReferenceId(subscription.getId())
                 .setPaymentUrl(snapUrl);
 

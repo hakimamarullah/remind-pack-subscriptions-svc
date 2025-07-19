@@ -3,6 +3,7 @@ package com.starline.subscriptions.utils;
 import com.starline.subscriptions.model.enums.PlanValidity;
 import org.apache.commons.lang3.RandomStringUtils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -18,7 +19,7 @@ public class SubscriptionsUtil {
         return randomDigitsPrefix + todayDatetime + randomDigitsSuffix;
     }
 
-    public static LocalDateTime calculateExpiryDate(LocalDateTime effectiveDate, PlanValidity planValidity) {
+    public static LocalDate calculateExpiryDate(LocalDate effectiveDate, PlanValidity planValidity) {
         return switch (planValidity) {
             case WEEKLY -> effectiveDate.plusDays(7);
             case MONTHLY -> effectiveDate.plusMonths(1);

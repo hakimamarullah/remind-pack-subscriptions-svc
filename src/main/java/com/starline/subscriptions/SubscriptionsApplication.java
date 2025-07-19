@@ -2,7 +2,6 @@ package com.starline.subscriptions;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -23,7 +22,6 @@ import java.util.TimeZone;
 @EnableRetry
 @EnableAsync
 @EnableCaching
-@EnableRabbit
 @EnableConfigurationProperties
 @Slf4j
 public class SubscriptionsApplication {

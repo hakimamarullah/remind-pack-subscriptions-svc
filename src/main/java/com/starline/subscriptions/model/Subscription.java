@@ -16,7 +16,7 @@ import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "SUBSCRIPTION")
@@ -31,11 +31,11 @@ public class Subscription extends BaseEntity {
 
     @Column(name = "EFFECTIVE_DATE")
     @Comment(value = "Effective Date of subscription (set to payment success date)", on = "EFFECTIVE_DATE")
-    private LocalDateTime effectiveDate;
+    private LocalDate effectiveDate;
 
     @Column(name = "EXPIRY_DATE")
     @Comment(value = "Expiry Date of subscription (calculated based on plan duration)", on = "EXPIRY_DATE")
-    private LocalDateTime expiryDate;
+    private LocalDate expiryDate;
 
     @Column(name = "STATUS", length = 20, nullable = false)
     @Comment(value = "Subscription Status", on = "STATUS")

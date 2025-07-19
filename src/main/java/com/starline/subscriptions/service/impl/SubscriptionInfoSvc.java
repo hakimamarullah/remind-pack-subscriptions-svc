@@ -54,6 +54,8 @@ public class SubscriptionInfoSvc implements SubscriptionService {
                     .expiryDate(sub.getExpiryDate())
                     .planDescription(plan.getDescription())
                     .planName(plan.getName())
+                    .planDescription(plan.getDescription())
+                    .planCycle(plan.getValidity().name())
                     .build();
             if (item.getStatus() == SubscriptionStatus.PENDING) {
                 item.setPaymentUrl(paymentUrl);

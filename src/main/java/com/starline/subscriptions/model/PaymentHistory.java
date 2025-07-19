@@ -61,6 +61,10 @@ public class PaymentHistory extends BaseEntity {
     @Comment(value = "Payment URL", on = "PAYMENT_URL")
     private String paymentUrl;
 
+    @Column(name = "USER_ID", length = 50)
+    @Comment(value = "User Id references to users table column ID", on = "USER_ID")
+    private String userId;
+
     @Column(name = "REASON")
     @Comment(value = "Reason for payment failure, cancellation, etc.", on = "REASON")
     private String reason;

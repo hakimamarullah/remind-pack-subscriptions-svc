@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -52,7 +53,7 @@ public class MidtransWebhookSvc implements MidtransWebhookService {
         if (isPaymentSuccessful(payload.getTransactionStatus(), payload.getFraudStatus())) {
             Subscription sub = subscription.get();
             sub.setStatus(SubscriptionStatus.ACTIVE);
-            sub.setEffectiveDate(LocalDateTime.now());
+            sub.setEffectiveDate(LocalDate.now());
 
             Plan plan = sub.getPlan();
             sub.setExpiryDate(SubscriptionsUtil.calculateExpiryDate(sub.getEffectiveDate(), plan.getValidity()));
@@ -63,7 +64,7 @@ public class MidtransWebhookSvc implements MidtransWebhookService {
             paymentHist.setPaymentStatus(PaymentStatus.SUCCESS.name());
             paymentHist.setStatusCode(payload.getStatusCode());
             paymentHist.setPartnerTrxId(payload.getTransactionId());
-            paymentHist.setPaymentDate(sub.getEffectiveDate());
+            paymentHist.setPaymentDate(LocalDateTime.now());
             paymentHist.setPaymentType(paymentHist.getPaymentType());
 
             paymentHistRepository.save(paymentHist);
@@ -77,8 +78,11 @@ public class MidtransWebhookSvc implements MidtransWebhookService {
             paymentHist.setPaymentType(paymentHist.getPaymentType());
             paymentHist.setReason(payload.getTransactionStatus());
 
+            subscription.get().setStatus(SubscriptionStatus.CANCELLED);
+
+            subscriptionRepository.save(subscription.get());
             paymentHistRepository.save(paymentHist);
-            subscriptionRepository.deleteById(subscription.get().getId());
+
 
         }
         log.info("[END HANDLING MIDTRANS NOTIFICATION FOR ORDER] {} Status: {}", payload.getOrderId(), payload.getTransactionStatus());

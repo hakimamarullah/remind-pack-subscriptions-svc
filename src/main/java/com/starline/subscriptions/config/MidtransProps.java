@@ -14,5 +14,4 @@ public class MidtransProps {
     private String clientKey;
     private String serverKey;
     private boolean isProduction;
-    private String snapUrl;
 }
