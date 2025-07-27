@@ -4,6 +4,7 @@ import com.starline.subscriptions.repository.SubscriptionRepository;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ public class SubscriptionExpiryCheckerScheduler {
     @WithSpan
     @Scheduled(cron = "${cron.check-expired-subscription-status:0 0 0 * * *}")
     @Transactional
+    @CacheEvict(value = "subscriptions", allEntries = true)
     public void checkExpiredSubscriptionStatus() {
         LocalDate cutOffDate = LocalDate.now();
         log.info("Check expired subscription status at {}", cutOffDate);

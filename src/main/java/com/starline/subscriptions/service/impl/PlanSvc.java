@@ -9,6 +9,7 @@ import com.starline.subscriptions.service.PlanService;
 import com.starline.subscriptions.utils.CurrencyUtil;
 import com.starline.subscriptions.utils.SubscriptionsUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,17 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = {"plans"})
+@RegisterReflectionForBinding({
+        PlanInfo.class,
+        Plan.class
+})
 public class PlanSvc implements PlanService {
 
     private final PlanRepository planRepository;
 
     private final ObjectMapper mapper;
 
-    @Cacheable(key = "#root.method.name" )
+    @Cacheable
     @Override
     public ApiResponse<List<PlanInfo>> getAvailablePlans() {
         List<Plan> plans = planRepository.findAllByEnabledTrue();

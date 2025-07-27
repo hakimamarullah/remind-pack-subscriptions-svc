@@ -15,6 +15,7 @@ import com.starline.subscriptions.utils.HashUtils;
 import com.starline.subscriptions.utils.SubscriptionsUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,11 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@RegisterReflectionForBinding({
+        MidtransNotification.class,
+        ApiResponse.class,
+
+})
 public class MidtransWebhookSvc implements MidtransWebhookService {
 
     private final MidtransProps midtransProps;
