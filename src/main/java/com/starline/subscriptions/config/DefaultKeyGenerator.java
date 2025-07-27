@@ -12,7 +12,9 @@ public class DefaultKeyGenerator implements KeyGenerator {
 
     @Override
     public Object generate(Object target, Method method, Object... params) {
-        return target.getClass().getCanonicalName() + method.getName() + generateKey((KotlinDetector.isSuspendingFunction(method) ?
+        return simpleHash(target.getClass().getCanonicalName()) + "::"
+                + method.getName() + "::"
+                + generateKey((KotlinDetector.isSuspendingFunction(method) ?
                 Arrays.copyOf(params, params.length - 1) : params));
     }
 
@@ -30,6 +32,14 @@ public class DefaultKeyGenerator implements KeyGenerator {
             }
         }
         return new DefaultKey(params);
+    }
+
+    public static int simpleHash(String input) {
+        int hash = 0;
+        for (int i = 0; i < input.length(); i++) {
+            hash = 31 * hash + input.charAt(i);
+        }
+        return hash;
     }
 
 }
