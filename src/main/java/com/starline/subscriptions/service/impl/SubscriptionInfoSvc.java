@@ -24,7 +24,8 @@ import java.util.List;
         SubscriptionInfo.class,
         HasActiveSubscription.class,
         SubscriptionInfo.class,
-        SubscriptionStatus.class
+        SubscriptionStatus.class,
+
 })
 public class SubscriptionInfoSvc implements SubscriptionService {
 

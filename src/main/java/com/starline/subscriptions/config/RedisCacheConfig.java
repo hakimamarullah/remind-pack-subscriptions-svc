@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
+import org.springframework.cache.annotation.CachingConfigurer;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -34,9 +36,11 @@ import java.util.TimeZone;
         "java.util.Collections$UnmodifiableSet",
         "java.util.Collections$UnmodifiableMap"
 })
-public class RedisCacheConfig {
+public class RedisCacheConfig implements CachingConfigurer {
 
     private final RedisCacheProp redisCacheProp;
+
+    private final DefaultKeyGenerator defaultKeyGenerator;
     @Bean
     @Primary
     public RedisConnectionFactory redisConnectionFactory() {
@@ -73,4 +77,8 @@ public class RedisCacheConfig {
                 .setTimeZone(TimeZone.getDefault());
     }
 
+    @Override
+    public KeyGenerator keyGenerator() {
+        return defaultKeyGenerator;
+    }
 }
