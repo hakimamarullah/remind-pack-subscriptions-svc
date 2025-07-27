@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,13 @@ import java.util.TimeZone;
 @Configuration(proxyBeanMethods = false)
 @Slf4j
 @RequiredArgsConstructor
+@RegisterReflectionForBinding(classNames = {
+        "java.util.Collections$UnmodifiableRandomAccessList",
+        "java.util.Collections$UnmodifiableList",
+        "java.util.Collections$UnmodifiableCollection",
+        "java.util.Collections$UnmodifiableSet",
+        "java.util.Collections$UnmodifiableMap"
+})
 public class RedisCacheConfig {
 
     private final RedisCacheProp redisCacheProp;

@@ -9,6 +9,9 @@ import com.starline.subscriptions.repository.PaymentHistRepository;
 import com.starline.subscriptions.repository.SubscriptionRepository;
 import com.starline.subscriptions.service.SubscriptionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,12 +19,20 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = {"subscriptions"})
+@RegisterReflectionForBinding({
+        SubscriptionInfo.class,
+        HasActiveSubscription.class,
+        SubscriptionInfo.class,
+        SubscriptionStatus.class
+})
 public class SubscriptionInfoSvc implements SubscriptionService {
 
     private final SubscriptionRepository subscriptionRepository;
 
     private final PaymentHistRepository paymentHistRepository;
 
+    @Cacheable
     @Override
     public ApiResponse<List<SubscriptionInfo>> getSubscriptionInfoByUserId(Long userId) {
         List<Subscription> subscriptionInfoList = subscriptionRepository.getSubscriptionByUserIdAndStatusIn(userId,
@@ -36,6 +47,7 @@ public class SubscriptionInfoSvc implements SubscriptionService {
         return ApiResponse.setResponse(toSubscriptionInfoList(subscriptionInfoList, paymentUrl), 200);
     }
 
+    @Cacheable
     @Override
     public ApiResponse<HasActiveSubscription> checkHasActiveSubscription(Long userId) {
         boolean hasActiveSubscription = subscriptionRepository.countByUserIdAndStatus(userId, SubscriptionStatus.ACTIVE) > 0;

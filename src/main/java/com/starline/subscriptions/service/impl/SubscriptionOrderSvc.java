@@ -24,7 +24,9 @@ import com.starline.subscriptions.utils.CurrencyUtil;
 import com.starline.subscriptions.utils.SubscriptionsUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +38,15 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@RegisterReflectionForBinding({
+        OrderSummary.class,
+        PaymentInfo.class,
+        CreateOrderRequest.class,
+        SnapAPIRequest.CustomerDetails.class,
+        SnapAPIRequest.TransactionDetails.class,
+        UserInfo.class,
+        MidtransItemDetails.class
+})
 public class SubscriptionOrderSvc implements OrderService {
 
     private final PlanRepository planRepository;
@@ -71,6 +82,7 @@ public class SubscriptionOrderSvc implements OrderService {
         return ApiResponse.setSuccess(orderSummary);
     }
 
+    @CacheEvict(value = "subscriptions", allEntries = true)
     @Transactional
     @Override
     public ApiResponse<PaymentInfo> createOrder(CreateOrderRequest request) throws MidtransError {

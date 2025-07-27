@@ -8,6 +8,7 @@ import com.starline.subscriptions.dto.midtrans.SnapAPIRequest;
 import com.starline.subscriptions.service.SnapAPIService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -15,6 +16,9 @@ import java.util.Map;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@RegisterReflectionForBinding({
+        SnapAPIRequest.class
+})
 public class SnapAPISvc implements SnapAPIService {
 
     private final MidtransSnapApi midtransSnapApi;

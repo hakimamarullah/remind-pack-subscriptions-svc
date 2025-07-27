@@ -15,6 +15,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.aot.hint.annotation.RegisterReflection;
 
 import java.time.LocalDate;
 
@@ -23,6 +24,7 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @Accessors(chain = true)
+@RegisterReflection
 public class Subscription extends BaseEntity {
 
     @Id
